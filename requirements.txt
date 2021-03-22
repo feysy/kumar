@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pymongo
+pydantic
+passlib
+pyjwt
+python-multipart
+cffi
+bcrypt
+aiofiles
