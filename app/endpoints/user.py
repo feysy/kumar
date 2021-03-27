@@ -17,8 +17,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/token")
 
 @router.post("/")
 def create_user(user: UserCreateModel, user_repository: UserRepository = Depends(get_user_repository)):
-    user = user_repository.get_user(user.username)
-    if not user:
+    existing_user = user_repository.get_user(user.username)
+    if not existing_user:
         user_repository.create_user(user.username, user.password)
         return JSONResponse({'Created user': True})
 

@@ -8,7 +8,7 @@ from app.constants import JWT_SECRET
 from app.container import get_machine_repository, get_user_repository
 from app.exceptions import ExistingMachineError
 from app.models import MachineCreateModel
-from app.repository import MachineRepository, UserRepository
+from app.repository import MachineRepository, UserRepository, PlayConfig
 
 router = APIRouter(prefix='/machine')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/token")
@@ -55,7 +55,8 @@ def get_machine_by_id(machine_id: str, machine_repository: MachineRepository = D
 
 @router.get("/{machine_id}/assign_machine")
 def assign_machine(machine_id: str,
-                   machine_repository: MachineRepository = Depends(get_machine_repository),
+                   machine_repository: MachineRepository = Depends(
+                       get_machine_repository),
                    token: str = Depends(oauth2_scheme)):
     credentials = jwt.decode(token, JWT_SECRET)
     username = credentials.get('username')
@@ -64,4 +65,22 @@ def assign_machine(machine_id: str,
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Machine not found"
         )
+    return {'Machine': machine_id}
+
+
+@router.post("/{machine_id}/play")
+def play(machine_id: str,
+         play_config: PlayConfig,
+         machine_repository: MachineRepository = Depends(
+             get_machine_repository),
+         token: str = Depends(oauth2_scheme)):
+    credentials = jwt.decode(token, JWT_SECRET)
+    username = credentials.get('username')
+    machine = machine_repository.get_machine(machine_id)
+    if not machine.assigned_user == username:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Machine not assigned to the user"
+        )
+    # TODO play
     return {'Machine': machine_id}

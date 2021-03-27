@@ -19,7 +19,8 @@ class UserRepository:
         return User(id=str(user['_id']), username=user['username'], password=user['password'], is_admin=user['admin'])
 
     def create_user(self, username: str, password: str) -> None:
-        my_dict = {"username": username, "password": bcrypt.encrypt(password)}
+        my_dict = {"username": username,
+                   "password": bcrypt.encrypt(password), "balance": 1000}
         self.collection.insert_one(my_dict)
 
     def verify_user(self, username: str, password: str) -> bool:
@@ -55,10 +56,11 @@ class MachineRepository:
         if not machine:
             return None
 
-        return Machine(id=str(machine['_id']), name=machine['name'], type=MachineType(machine['type']))
+        return Machine(id=str(machine['_id']), name=machine['name'], type=MachineType(machine['type']), assigned_user=machine['assigned_user'])
 
     def create_machine(self, name: str, machine_type: MachineType) -> None:
-        my_dict = {"name": name, "type": machine_type.value, "assigned_user": None}
+        my_dict = {"name": name, "type": machine_type.value,
+                   "assigned_user": None}
         self.collection.insert_one(my_dict)
 
     def verify_user(self, username: str, password: str) -> bool:
@@ -93,4 +95,3 @@ class MachineRepository:
 
         result = self.collection.update_one(update_query, new_value)
         return result.modified_count > 0
-

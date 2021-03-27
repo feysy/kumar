@@ -6,8 +6,8 @@ from pydantic import BaseModel
 
 
 class MachineType(Enum):
-    Bar = 1
-    Champagne = 2
+    Bar = 'bar'
+    Champagne = 'champagne'
 
 
 class TokenModel(BaseModel):
@@ -18,7 +18,7 @@ class Machine(BaseModel):
     id: str
     name: str
     type: MachineType
-    assigned_user_id: Optional[str]
+    assigned_user: Optional[str]
 
     class Config:
         use_enum_values = True
@@ -29,6 +29,11 @@ class User(BaseModel):
     username: str
     password: str
     is_admin: bool
+
+
+class PlayConfig(BaseModel):
+    lines: str
+    bet: str
 
 
 class UserCreateModel(BaseModel):

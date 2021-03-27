@@ -3,3 +3,4 @@ venv
 database
 **/__pycache__
 **/node_modules
+static/output/bundle

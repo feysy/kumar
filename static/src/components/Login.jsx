@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { Container, Button, Paper, Grid, TextField, Snackbar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
 import wretch from 'wretch'
 import {
    useHistory
  } from "react-router-dom";
 
+const useStyles = makeStyles({
+  root: {
+    marginTop: '100px',
+  },
+});
+
 function Login() {
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
    const [loginError, setLoginError] = useState(null);
    const history = useHistory();
+   const styles = useStyles();
  
    const login = () => {
      wretch("api/token").formData({
@@ -26,7 +34,7 @@ function Login() {
    }
 
    return(
-      <Container maxWidth="xs" justify="">
+      <Container maxWidth="xs" justify="center" className={styles.root}>
       <Paper elevation={3}>
         <Snackbar open={loginError != null} autoHideDuration={6000} onClose={() => setLoginError(null)}>
           <Alert onClose={() => setLoginError(null)} severity="error">
