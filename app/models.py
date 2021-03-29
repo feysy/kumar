@@ -49,3 +49,17 @@ class MachineCreateModel(BaseModel):
 class UpdatePasswordModel(BaseModel):
     oldPassword: str
     newPassword: str
+
+class Element(BaseModel):
+    name: str
+    tag: str
+
+class MachineSpecs(BaseModel):
+    name: str
+    columns: int
+    rows: int
+
+class Path(BaseModel):
+    name: str
+    path: List[int]
+    type: str

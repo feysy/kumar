@@ -1,3 +1,4 @@
+from app.services.play_service import PlayService
 import pymongo
 import os
 from fastapi import Depends
@@ -23,3 +24,6 @@ def get_machine_repository(db: Database = Depends(get_database)):
     return MachineRepository(db)
 
 
+def get_play_service(user_repository: UserRepository = Depends(get_user_repository),
+                     machine_repository: MachineRepository = Depends(get_machine_repository)):
+    return PlayService(machine_repository, user_repository)
