@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordBearer
 from app.constants import JWT_SECRET
 from app.container import get_machine_repository, get_play_service, get_user_repository
 from app.exceptions import ExistingMachineError
-from app.models import MachineCreateModel, PlayConfig
+from app.models import MachineCreateModel, PlayConfig, TokenModel
 from app.repository import MachineRepository, UserRepository
 
 router = APIRouter(prefix='/machine')
@@ -59,8 +59,8 @@ def assign_machine(machine_id: str,
                    machine_repository: MachineRepository = Depends(
                        get_machine_repository),
                    token: str = Depends(oauth2_scheme)):
-    credentials = jwt.decode(token, JWT_SECRET)
-    username = credentials.get('username')
+    credentials = TokenModel.parse_obj(jwt.decode(token, JWT_SECRET, algorithms=['HS256']))
+    username = credentials.user
     if not machine_repository.assign_machine(machine_id, username):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -72,12 +72,10 @@ def assign_machine(machine_id: str,
 @router.post("/{machine_id}/play")
 def play(machine_id: str,
          play_config: PlayConfig,
-         machine_repository: MachineRepository = Depends(
-             get_machine_repository),
          play_service: PlayService = Depends(get_play_service),
          token: str = Depends(oauth2_scheme)):
-    credentials = jwt.decode(token, JWT_SECRET)
-    username = credentials.get('username')
-    play_service.play(machine_id, username, play_config)
+    credentials = TokenModel.parse_obj(jwt.decode(token, JWT_SECRET, algorithms=['HS256']))
+    username = credentials.user
+    play_result = play_service.play(machine_id, username, play_config)
 
-    return {'elements': [], 'award': 100, 'balance': 2100}
+    return play_result

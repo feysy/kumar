@@ -4,7 +4,7 @@ from bson import ObjectId
 from passlib.hash import bcrypt
 from pymongo.database import Database
 
-from app.models import Element, MachineSpecs, Path, User, MachineType, Machine
+from app.models import Element, MachineSpecs, Path, Reward, User, MachineType, Machine
 
 
 class UserRepository:
@@ -16,7 +16,7 @@ class UserRepository:
         if not user:
             return None
 
-        return User(id=str(user['_id']), username=user['username'], password=user['password'], is_admin=user['admin'])
+        return User(id=str(user['_id']), username=user['username'], password=user['password'], is_admin=user['admin'], balance=user['balance'])
 
     def create_user(self, username: str, password: str) -> None:
         my_dict = {"username": username,
@@ -41,10 +41,17 @@ class UserRepository:
 
         self.collection.update_one(update_query, new_value)
 
+    def update_balance(self, username: str, balance: int):
+        update_query = {"username": username}
+        new_value = {"$set": {"balance": balance}}
+
+        self.collection.update_one(update_query, new_value)
+
 
 class MachineRepository:
     def __init__(self, db: Database):
         self.paths = db['path']
+        self.rewards = db['reward']
         self.machine_elements = db['machine_element']
         self.machine_types = db['machine_type']
         self.machines = db['machine']
@@ -95,7 +102,7 @@ class MachineRepository:
         return result
 
     def assign_machine(self, machine_id: str, username: str) -> int:
-        update_query = {"_id": machine_id}
+        update_query = {"_id": ObjectId(machine_id)}
         new_value = {"$set": {"assigned_user": username}}
 
         result = self.machines.update_one(update_query, new_value)
@@ -112,9 +119,9 @@ class MachineRepository:
         machine_type = self.machine_types.find_one({'name': str(type)})
         if not machine_type:
             return None
-        return MachineType(name=machine_type['name'], columns=machine_type['columns'], rows=machine_type['rows'])
+        return MachineSpecs(name=machine_type['name'], columns=machine_type['columns'], rows=machine_type['rows'])
 
-    def load_paths(self, type: MachineType) -> Path:
+    def load_paths(self, type: MachineType) -> List[Path]:
         cursor = self.paths.find({'type': str(type)})
         result = []
         for path in cursor:
@@ -122,3 +129,25 @@ class MachineRepository:
                                path=[n for n in path['path']],
                                type=MachineType(path['type'])))
         return result
+
+    def load_rewards(self, type: MachineType) -> List[Reward]:
+        cursor = self.rewards.find({'type': str(type)})
+        result = []
+        for reward in cursor:
+            result.append(Reward(reward=reward['award'],
+                                 element_tag=reward['tag'],
+                                 count=reward['count'],
+                                 type=MachineType(reward['type'])))
+        return result
+
+    def get_reward_for(self, element: str, occurence: int, type: MachineType) -> Optional[Reward]:
+        reward = self.rewards.find_one(
+            {'type': str(type), 'tag': element, 'count': occurence})
+
+        if not reward:
+            return None
+
+        return Reward(reward=reward['award'],
+                      element_tag=reward['tag'],
+                      count=reward['count'],
+                      type=MachineType(reward['type']))
