@@ -5,10 +5,10 @@ from starlette.responses import JSONResponse, RedirectResponse, FileResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from starlette.staticfiles import StaticFiles
 
-from app.constants import JWT_SECRET
-from app.container import get_database, get_user_repository
-from app.endpoints import user, machine
-from app.repository import UserRepository
+from .constants import JWT_SECRET
+from .container import get_database, get_user_repository
+from .endpoints import user, machine
+from .repository import UserRepository
 from .exceptions import ExistingUserError, ExistingMachineError
 from .models import TokenModel
 

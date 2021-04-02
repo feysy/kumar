@@ -29,11 +29,12 @@ class User(BaseModel):
     username: str
     password: str
     is_admin: bool
+    balance: int
 
 
 class PlayConfig(BaseModel):
-    lines: str
-    bet: str
+    lines: List[str]
+    bet: int
 
 
 class UserCreateModel(BaseModel):
@@ -49,3 +50,35 @@ class MachineCreateModel(BaseModel):
 class UpdatePasswordModel(BaseModel):
     oldPassword: str
     newPassword: str
+
+class Element(BaseModel):
+    name: str
+    tag: str
+
+class MachineSpecs(BaseModel):
+    name: str
+    columns: int
+    rows: int
+
+class Path(BaseModel):
+    name: str
+    path: List[int]
+    type: MachineType
+
+
+class Reward(BaseModel):
+    element_tag: str
+    count: int
+    type: MachineType
+    reward: int
+
+class EarnedRewardWithPath(BaseModel):
+    path: Path
+    reward: Reward
+    earned_reward: int
+
+class PlayResult(BaseModel):
+    reward_with_path: List[EarnedRewardWithPath]
+    total_reward: int
+    final_balance: int
+    elements: List[List[str]]
