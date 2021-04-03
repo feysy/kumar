@@ -1,6 +1,9 @@
 conn = new Mongo();
 db = conn.getDB("admin");
 newDB = db.getSiblingDB('kumar')
+// User
+newDB.users.insert({"username":"asd","password":"$2b$12$Sw30XREAJvM8Eyb/r.5aGOamqarr1pHH10BVhuRYhqnPtCRAhnXWa","balance":1440,"admin":true});
+
 // Champagne elements
 newDB.element.insert({'name' : 'Watermellon', 'tag': 'wmellon'});
 newDB.element.insert({'name' : 'Grapes', 'tag': 'grape'});

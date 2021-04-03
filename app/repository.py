@@ -98,7 +98,7 @@ class MachineRepository:
             result.append(Machine(id=str(machine['_id']),
                                   name=machine['name'],
                                   type=MachineType(machine['type']),
-                                  assigned_user_id=machine["assigned_user"]))
+                                  assigned_user=machine["assigned_user"]))
         return result
 
     def assign_machine(self, machine_id: str, username: str) -> int:
