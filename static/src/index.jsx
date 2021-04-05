@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Machines from './components/Machines';
 import Login from './components/Login';
+import Play from './components/Play';
 import PrivateRoute from './components/PrivateRoute';
 
 
@@ -16,6 +17,12 @@ function App() {
       <Switch>
         <PrivateRoute path="/machines">
           <Machines />
+        </PrivateRoute>
+        <PrivateRoute path="/play?id=:machineId">
+          <Play />
+        </PrivateRoute>
+        <PrivateRoute path="/play">
+          <Play />
         </PrivateRoute>
         <Route path="/">
           <Login />

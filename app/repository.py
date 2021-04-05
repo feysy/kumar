@@ -108,6 +108,13 @@ class MachineRepository:
         result = self.machines.update_one(update_query, new_value)
         return result.modified_count > 0
 
+    def un_assign_user_from_all(self, username: str) -> int:
+        update_query = {"assigned_user": username}
+        new_value = {"$set": {"assigned_user": None}}
+
+        result = self.machines.update_many(update_query, new_value)
+        return result.modified_count > 0
+
     def get_element_tags_for_machine_type(self, type: MachineType) -> List[str]:
         cursor = self.machine_elements.find({'type': str(type)})
         result = []

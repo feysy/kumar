@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   <meta charset="UTF-8">
-   <title>Example React App</title>
+  <meta charset="UTF-8">
+  <title>Example React App</title>
 </head>
+<style>
+  @keyframes roll {
+    0% {
+      top: -150%;
+    }
+
+    50% {
+      top: 0%;
+    }
+
+    100% {
+      top: -150%;
+    }
+  }
+
+  @keyframes end {
+    from {
+      top: -150%;
+    }
+
+    to {
+      top: -75%;
+    }
+  }
+</style>
+
 <body style="height: 100%;">
-   <div id="app"></div>
-   <script src="static/bundle/bundle.js"></script>
+  <audio id="coin1" src="static/sounds/coin1.mp3" preload="auto"></audio>
+  <audio id="coin2" src="static/sounds/coin2.mp3" preload="auto"></audio>
+  <audio id="coin3" src="static/sounds/coin3.mp3" preload="auto"></audio>
+  <audio id="coin4" src="static/sounds/coin4.mp3" preload="auto"></audio>
+  <audio id="coin5" src="static/sounds/coin5.mp3" preload="auto"></audio>
+  <audio id="coin6" src="static/sounds/coin6.mp3" preload="auto"></audio>
+  <audio id="coin7" src="static/sounds/coin1.mp3" preload="auto"></audio>
+  <audio id="coin8" src="static/sounds/coin4.mp3" preload="auto"></audio>
+  <audio id="coin9" src="static/sounds/coin6.mp3" preload="auto"></audio>
+  <div id="app"></div>
+  <script src="static/bundle/bundle.js"></script>
 </body>
+
 </html>

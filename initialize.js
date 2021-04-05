@@ -104,3 +104,7 @@ newDB.machine_element.insert({'type': 'bar', 'element':'orange'});
 newDB.machine_element.insert({'type': 'bar', 'element':'cherry'});
 
 newDB.machine.insert({'name': 'Beşiktaş', 'type': 'bar', "assigned_user": null});
+newDB.machine.insert({'name': 'Kadıköy', 'type': 'bar', "assigned_user": null});
+newDB.machine.insert({'name': 'Levent', 'type': 'bar', "assigned_user": null});
+newDB.machine.insert({'name': 'Moda', 'type': 'bar', "assigned_user": null});
+newDB.machine.insert({'name': 'Bebek', 'type': 'bar', "assigned_user": null});

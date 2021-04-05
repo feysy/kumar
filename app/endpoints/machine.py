@@ -58,15 +58,28 @@ def get_machine_by_id(machine_id: str, machine_repository: MachineRepository = D
 def assign_machine(machine_id: str,
                    machine_repository: MachineRepository = Depends(
                        get_machine_repository),
+                   user_repository: UserRepository = Depends(get_user_repository),
                    token: str = Depends(oauth2_scheme)):
     credentials = TokenModel.parse_obj(jwt.decode(token, JWT_SECRET, algorithms=['HS256']))
     username = credentials.user
+    machine = machine_repository.get_machine(machine_id)
+    if machine.assigned_user != None and machine.assigned_user != username:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Machine already assigned to another user."
+        )
+    if machine.assigned_user == username:
+        user = user_repository.get_user(username)
+        return {'machine': machine, 'user': user}
+    machine_repository.un_assign_user_from_all(username)
     if not machine_repository.assign_machine(machine_id, username):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Machine not found"
         )
-    return {'Machine': machine_id}
+    machine = machine_repository.get_machine(machine_id)
+    user = user_repository.get_user(username)
+    return {'machine': machine, 'user': user}
 
 
 @router.post("/{machine_id}/play")

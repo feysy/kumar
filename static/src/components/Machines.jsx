@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Button, Paper, Grid, TextField, Snackbar, CircularProgress } from '@material-ui/core';
+import { Container, Button, Paper, Grid, TextField, Snackbar, CircularProgress, SvgIcon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
 import wretch from 'wretch'
@@ -8,6 +8,10 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
+import get_svg_component from '../SvgIconSet';
+import {
+  useHistory
+} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   // root: {
@@ -35,6 +39,7 @@ function Machines() {
   const [machines, setMachines] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
+  const history = useHistory();
 
   useEffect(() => {
     getMachines();
@@ -49,6 +54,10 @@ function Machines() {
       })
   }
 
+  const goPlay = (machineId) => {
+    history.replace({pathname:`/play?id=${machineId}`});
+  }
+
   return (
     loading ? <CircularProgress /> : 
       <Container maxWidth="sm">
@@ -59,13 +68,14 @@ function Machines() {
             </GridListTile>
             {machines.map((machine) => (
               <GridListTile key={machine.id}  cols={1}>
-                <img src={'static/machine_img/' + machine.type + '.jpg'} alt={machine.name} />
+                <img src={`static/machine_img/${machine.type}.jpg`} alt={machine.name} />
                 <GridListTileBar
                   title={machine.name}
                   subtitle={<span>{machine.assigned_user}</span>}
                   actionIcon={
-                    <IconButton aria-label={`info about ${machine.name}`} className={classes.icon}>
-                      HELLO
+                    machine.assigned_user ? "" :
+                    <IconButton aria-label={`info about ${machine.name}`} className={classes.icon} onClick={() => goPlay(machine.id)}>
+                      <SvgIcon component={get_svg_component("play")} viewBox="0 0 256 256"></SvgIcon>
                     </IconButton>
                   }
                 />
