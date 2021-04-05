@@ -1,6 +1,9 @@
 conn = new Mongo();
 db = conn.getDB("admin");
 newDB = db.getSiblingDB('kumar')
+// User
+newDB.users.insert({"username":"asd","password":"$2b$12$Sw30XREAJvM8Eyb/r.5aGOamqarr1pHH10BVhuRYhqnPtCRAhnXWa","balance":1440,"admin":true});
+
 // Champagne elements
 newDB.element.insert({'name' : 'Watermellon', 'tag': 'wmellon'});
 newDB.element.insert({'name' : 'Grapes', 'tag': 'grape'});
@@ -101,3 +104,7 @@ newDB.machine_element.insert({'type': 'bar', 'element':'orange'});
 newDB.machine_element.insert({'type': 'bar', 'element':'cherry'});
 
 newDB.machine.insert({'name': 'Beşiktaş', 'type': 'bar', "assigned_user": null});
+newDB.machine.insert({'name': 'Kadıköy', 'type': 'bar', "assigned_user": null});
+newDB.machine.insert({'name': 'Levent', 'type': 'bar', "assigned_user": null});
+newDB.machine.insert({'name': 'Moda', 'type': 'bar', "assigned_user": null});
+newDB.machine.insert({'name': 'Bebek', 'type': 'bar', "assigned_user": null});
