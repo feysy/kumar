@@ -20,7 +20,11 @@ const path = require('path');module.exports = {
          {
             test: /\.scss/,
             use: ['style-loader', 'css-loader', 'postcss-lodaer', 'sass-loader'] // Note that postcss loader must come before sass-loader
-         }
+         },
+         {
+            test: /\.svg$/,
+            use: ['@svgr/webpack'],
+          }
       ]
    }
 };

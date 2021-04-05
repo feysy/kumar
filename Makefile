@@ -5,7 +5,7 @@ run:
 	docker-compose run api
 
 runloc:
-	python ./main.py
+	python3 ./main.py
 
 reqs:
 	pip install -r requirements.txt
