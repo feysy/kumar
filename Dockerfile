@@ -7,7 +7,7 @@ COPY ./requirements.txt /app/requirements.txt
 RUN pip install -r /app/requirements.txt
 
 COPY static/ /static
-COPY app/ /static
+COPY app/ /app
 
 RUN apt-get update
 RUN apt-get -y install npm
