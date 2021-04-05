@@ -15,6 +15,6 @@ RUN npm install --global yarn
 WORKDIR /static
 RUN yarn
 RUN yarn build
-WORKDIR /app
+WORKDIR /
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080", "--reload"]
