@@ -94,7 +94,7 @@ newDB.award.insert({'type': 'bar', 'tag': 'cherry', 'count': 3, 'award': 10});
 newDB.award.insert({'type': 'bar', 'tag': 'cherry', 'count': 2, 'award': 2});
 newDB.award.insert({'type': 'bar', 'tag': 'cherry', 'count': 1, 'award': 2});
 
-newDB.path.insert({'name':'0', 'path':'0,0,0', 'type': 'bar'});
+newDB.path.insert({'name':'0', 'path':[0,0,0], 'type': 'bar'});
 
 newDB.machine_element.insert({'type': 'bar', 'element':'seven'});
 newDB.machine_element.insert({'type': 'bar', 'element':'bell'});

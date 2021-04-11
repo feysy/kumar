@@ -8,9 +8,9 @@ services:
       - "8080:8080"
     environment:
       - ENV=cont
-    volumes:
-      - ./app:/app
-      - ./static:/static
+    # volumes:
+    #   - ./app:/app
+    #   - ./static:/static
 
   mongodb:
     build :
