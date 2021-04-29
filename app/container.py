@@ -9,10 +9,14 @@ from app.repository import UserRepository, MachineRepository
 
 def get_database():
     env = os.getenv('ENV')
+    db_user = os.getenv('MONGO_API_USER')
+    db_password = os.getenv('MONGO_API_PASSWORD')
+    print(db_user)
+    print(db_password)
     db_address = "mongodb"
     if not env:
         db_address = "127.0.0.1"
-    my_client = pymongo.MongoClient(f"mongodb://{db_address}:27017/")
+    my_client = pymongo.MongoClient(f"mongodb://{db_user}:{db_password}@{db_address}:27017/")
     return my_client["kumar"]
 
 

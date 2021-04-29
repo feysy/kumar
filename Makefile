@@ -2,7 +2,7 @@ default:
 	docker-compose build
 
 run:
-	docker-compose run api
+	docker-compose run --service-ports api
 
 runloc:
 	python3 ./main.py
